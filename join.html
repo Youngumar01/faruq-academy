@@ -37,6 +37,7 @@ input,select{
     border:1px solid #ccc;
     border-radius:6px;
     font-size:16px;
+    box-sizing:border-box;
 }
 
 button{
@@ -58,10 +59,11 @@ button:hover{
     display:block;
     text-align:center;
     margin-top:20px;
-    text-decoration:none;
     color:#0066cc;
+    text-decoration:none;
 }
 </style>
+
 </head>
 
 <body>
@@ -72,24 +74,36 @@ button:hover{
 
 <h1>🎓 Join Faruq Academy</h1>
 
-<form>
+<form
+name="student-registration"
+method="POST"
+data-netlify="true"
+action="success.html">
+
+<input type="hidden" name="form-name" value="student-registration">
 
 <input
 type="text"
+name="fullname"
 placeholder="Full Name"
 required>
 
 <input
 type="email"
+name="email"
 placeholder="Email Address"
 required>
 
-<select required>
-<option>Select a Course</option>
+<select
+name="course"
+required>
+
+<option value="">Select a Course</option>
 <option>HTML</option>
 <option>CSS</option>
 <option>JavaScript</option>
 <option>Python</option>
+
 </select>
 
 <button type="submit">
