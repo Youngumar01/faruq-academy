@@ -5,129 +5,99 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Join Faruq Academy</title>
 
-<style>
-*{
-    box-sizing:border-box;
-}
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<style>
 body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#f2f5fc;
+font-family:Arial,sans-serif;
+background:#f2f5fc;
+margin:0;
+padding:40px;
 }
 
 .container{
-    width:90%;
-    max-width:500px;
-    margin:50px auto;
+max-width:500px;
+margin:auto;
 }
 
 .card{
-    background:#fff;
-    padding:30px;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,.15);
+background:#fff;
+padding:30px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.15);
 }
 
 h1{
-    text-align:center;
-    color:#0066cc;
-}
-
-p{
-    text-align:center;
-    color:#666;
+text-align:center;
+color:#0066cc;
 }
 
 input,select{
-    width:100%;
-    padding:15px;
-    margin:12px 0;
-    border:1px solid #ccc;
-    border-radius:8px;
-    font-size:17px;
+width:100%;
+padding:15px;
+margin:12px 0;
+font-size:18px;
+border:1px solid #ccc;
+border-radius:8px;
+box-sizing:border-box;
 }
 
 button{
-    width:100%;
-    padding:15px;
-    border:none;
-    border-radius:8px;
-    background:#0066cc;
-    color:white;
-    font-size:18px;
-    cursor:pointer;
+width:100%;
+padding:15px;
+background:#0066cc;
+color:white;
+border:none;
+border-radius:8px;
+font-size:20px;
+cursor:pointer;
 }
 
 button:hover{
-    background:#004c99;
+background:#004c99;
 }
 
 .back{
-    display:block;
-    text-align:center;
-    margin-top:20px;
-    text-decoration:none;
-    color:#0066cc;
+display:block;
+text-align:center;
+margin-top:20px;
+color:#0066cc;
+text-decoration:none;
 }
 </style>
-
-<script>
-function registerStudent(event){
-    event.preventDefault();
-
-    const fullname=document.getElementById("fullname").value;
-    const email=document.getElementById("email").value;
-    const course=document.getElementById("course").value;
-
-    if(fullname==="" || email==="" || course===""){
-        alert("Please fill in all fields.");
-        return;
-    }
-
-    window.location.href="success.html";
-}
-</script>
 
 </head>
 <body>
 
 <div class="container">
-
 <div class="card">
 
 <h1>🎓 Join Faruq Academy</h1>
 
-<p>Register below to join our academy.</p>
-
-<form onsubmit="registerStudent(event)">
+<form id="registerForm">
 
 <input
-id="fullname"
 type="text"
+id="full_name"
 placeholder="Full Name"
 required>
 
 <input
-id="email"
 type="email"
+id="email"
 placeholder="Email Address"
 required>
 
-<select
-id="course"
-required>
-
+<select id="course" required>
 <option value="">Select a Course</option>
 <option>HTML</option>
 <option>CSS</option>
 <option>JavaScript</option>
 <option>Python</option>
-
 </select>
 
 <button type="submit">
-🚀 Register Now
+Register Now 🚀
 </button>
 
 </form>
@@ -137,8 +107,41 @@ required>
 </a>
 
 </div>
-
 </div>
+
+<script>
+const supabase = window.supabase.createClient(
+"https://vjyhqyxtvlqxegegoyxi.supabase.co",
+"sb_publishable_qyju4-UBI_TtciXq96RueA_mz4TqyRy"
+);
+
+document.getElementById("registerForm").addEventListener("submit", async function(e){
+
+e.preventDefault();
+
+const full_name=document.getElementById("full_name").value;
+const email=document.getElementById("email").value;
+const course=document.getElementById("course").value;
+
+const {error}=await supabase
+.from("students")
+.insert([
+{
+full_name:full_name,
+email:email,
+course:course
+}
+]);
+
+if(error){
+alert("Registration failed!");
+console.log(error);
+}else{
+window.location.href="success.html";
+}
+
+});
+</script>
 
 </body>
 </html>
