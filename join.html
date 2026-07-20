@@ -110,7 +110,9 @@ Register Now 🚀
 </div>
 
 <script>
-const supabase = window.supabase.createClient(
+const { createClient } = supabase;
+
+const client = createClient(
 "https://vjyhqyxtvlqxegegoyxi.supabase.co",
 "sb_publishable_qyju4-UBI_TtciXq96RueA_mz4TqyRy"
 );
@@ -119,26 +121,28 @@ document.getElementById("registerForm").addEventListener("submit", async functio
 
 e.preventDefault();
 
-const full_name=document.getElementById("full_name").value;
-const email=document.getElementById("email").value;
-const course=document.getElementById("course").value;
+const full_name = document.getElementById("full_name").value;
+const email = document.getElementById("email").value;
+const course = document.getElementById("course").value;
 
-const {error}=await supabase
+const { data, error } = await client
 .from("students")
 .insert([
 {
-full_name:full_name,
-email:email,
-course:course
+full_name: full_name,
+email: email,
+course: course
 }
 ]);
 
 if(error){
-alert("Registration failed!");
+alert(error.message);
 console.log(error);
-}else{
-window.location.href="success.html";
+return;
 }
+
+alert("Registration Successful!");
+window.location.href="success.html";
 
 });
 </script>
