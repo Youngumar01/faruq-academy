@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faruq Academy Admin</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#f2f2f2;
+margin:0;
+padding:20px;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+}
+
+h1{
+text-align:center;
+color:#0066cc;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+margin-top:20px;
+}
+
+th,td{
+padding:12px;
+border:1px solid #ddd;
+text-align:left;
+}
+
+th{
+background:#0066cc;
+color:white;
+}
+
+tr:nth-child(even){
+background:#f9f9f9;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>🎓 Faruq Academy Admin Dashboard</h1>
+
+<table>
+
+<thead>
+<tr>
+<th>ID</th>
+<th>Full Name</th>
+<th>Email</th>
+<th>Course</th>
+<th>Registered At</th>
+</tr>
+</thead>
+
+<tbody id="students"></tbody>
+
+</table>
+
+</div>
+
+<script>
+
+const { createClient } = supabase;
+
+const client = createClient(
+"https://vjyhqyxtvlqxegegoyxi.supabase.co",
+"sb_publishable_qyju4-UBI_TtciXq96RueA_mz4TqyRy"
+);
+
+async function loadStudents(){
+
+const { data, error } = await client
+.from("students")
+.select("*")
+.order("id",{ascending:true});
+
+if(error){
+alert(error.message);
+console.log(error);
+return;
+}
+
+const tbody=document.getElementById("students");
+
+tbody.innerHTML="";
+
+data.forEach(student=>{
+
+tbody.innerHTML += `
+<tr>
+<td>${student.id}</td>
+<td>${student.full_name}</td>
+<td>${student.email}</td>
+<td>${student.course}</td>
+<td>${student.created_at}</td>
+</tr>
+`;
+
+});
+
+}
+
+loadStudents();
+
+</script>
+
+</body>
+</html>
